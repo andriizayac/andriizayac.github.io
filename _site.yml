@@ -1,0 +1,14 @@
+name: "Andrii Zaiats"
+output_dir: "."
+navbar:
+  title: "Andrii"
+  left: 
+    - text: "Home"
+      href: index.html
+    - text: "Research"
+      href: reserch.html
+  right:
+    - text: "Contacts"
+      href: contacts.html
+      
+    
