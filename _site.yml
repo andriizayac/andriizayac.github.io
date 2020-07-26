@@ -6,7 +6,7 @@ navbar:
     - text: "Home"
       href: index.html
     - text: "Research"
-        href: ESA_2020_appendix.html
+      href: ESA_2020_appendix.html
   right:
     - text: "Contacts"
       href: contacts.html

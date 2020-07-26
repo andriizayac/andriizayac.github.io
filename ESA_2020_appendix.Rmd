@@ -1,0 +1,128 @@
+---
+title: <center> Spatial plant-plant interactions can alter inference on plant performance in common gardens </center> 
+author:
+ - <center> Andrii Zaiats^[Boise State University, andriizaiats@u.boisestate.edu], Matthew J Germino^[US Geological Survey, Forest and Rangeland Ecosystem Science Center, mgermino@usgs.gov], Juan Requena-Mullor^[Boise State Unviersity, juanmir@ual.es], Trevor Caughlin^[Boise State Unviersity, trevorcaughlin@boisestate.edu] </center>
+date: <center> ESA Annual conference - Harnessing the ecological data revolution, August 3 - August 6, 2020 </center>
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(rstan)
+library(som.nn)
+library(dplyr)
+library(ggplot2)
+library(reshape2)
+library(rethinking)
+library(viridisLite)
+library(ggridges)
+library(forcats)
+virpalette <- viridis(5)
+
+load("esa_sim_outcomes.RData")
+```
+
+### Background
+
+In an era of increasing anthropogenic disturbances, there is a pressing need to forecast how ecological variation affects restoration outcomes. Plant-plant interactions, including negative density-dependence (NDD), are an important source of variation that could alter plant performance depending on the spatial characteristics of plant neighborhoods. A local neighborhood can be defined in terms of the number, identity, and spatial proximity of neighbors to the focal plant.  
+
+### Aims and methods
+
+We explored the effect of NDD on plant performance in a series of spatially explicit simulations parametrized on a long-term sagebrush (_Artemisia tridentata_) common garden experiment. The simulation workflow included three steps. First, we fit a spatial Bayesian model to estimate plant growth and the magnitude of spatial interactions using field-data from a common garden experiment located in Idaho, USA. This common garden contained a set of big sagebrush plants representative of high intraspecific variation, including three subspecies and two ploidy variations (subspecies:ploidy). Second, we simulated plant growth under incrementally increasing interspaces between neighbors. Finally, we quantified the magnitude of among subspecies:ploidy group differences in simulations with and without consideration of spatially-explicit plant locations. We applied linear analysis of variance to examine group (subspecies:ploidy) differences in prediction outputs to parallel frequently-used analyses of common garden data. The statistical and prediction models were identical and of the following form. 
+
+Negative density-dependence (NDD) term:
+$$ \Phi_{i,s}  = \sum_{i = 1, i \ne j}^{n-1} \beta_{1[s]} Size_{j,s} * e^{-Distance_{j}^2\beta_2} $$ 
+Full model:
+$$ \mu_{i,s} = \alpha_{0[s]} + \alpha_{1[s]}Size_i + \alpha_{3[s]}\Phi_{i,s}  $$
+Base model:
+$$ \mu_{i,s} = \alpha_{0[s]} + \alpha_{1[s]}Size_i $$
+
+### Results
+##### Data summary and model fitting
+The data included 448 plants in a grid arrangement with spacings between neighboring plants of 1 and 1.5 meters. The observed growth varied by spacies with _A. t. tridentata_:2x having greatest growth rate compared to other subspecies:ploidy groups. The statistical model fit had an $r^2 = 0.5$ and mean absolute error of 0.0097 $[m^2month^{-1}]$.  
+
+```{r echo=FALSE, warning=FALSE, error=FALSE, fig.align="center", fig.height=4, fig.width=6}
+dfcomp3 %>% filter(!Subspecies=="AR") %>% droplevels() %>%
+  mutate(subsppcyt = fct_recode(subsppcyt, "tridentata:2x" = "T2n",
+                                "tridentata:4x" = "T4n", "vaseyana:2x" = "V2n", 
+                                "vaseyana:4x" = "V4n", "wyomingensis:4x" = "W4n")) %>%
+  ggplot(aes(x = x, y = y, size = size_t, colour = subsppcyt)) + 
+  geom_point() +
+  scale_size(range=c(0,3))+
+  labs(x = "x coordinate [m]", y = "y coordinate [m]", title = "Common garden map") +
+  scale_colour_manual(name = 'Suspecies:cytotype', values = virpalette) + #, labels = c('T2n','T4n','V2n','V4n','W4n'))
+  guides(size = FALSE, colour = guide_legend("Subspecies:cytotype")) + 
+  theme_classic() +
+  theme(panel.border = element_rect(colour = "black", fill=NA, size=1),
+        panel.grid.minor=element_line(size=.2,colour="gray",linetype="dashed"),
+        panel.grid.major=element_line(size=.2,colour="gray",linetype="dashed"),
+        #panel.background =element_rect(fill=col.alpha("black",0.05)),
+        text=element_text(size=14),
+        #axis.ticks = element_blank(),
+        axis.line  = element_line(color="black", size = .1),
+        #axis.text = element_blank(),
+        axis.title=element_text(size=12))
+```
+_Figure 1: Relative size and location of sagebrush plants in a common garden experiment. Different colors indicate subspecies and cytotypes, while the relative size of circles indicates crown volume._  
+
+```{r echo=FALSE, warning=FALSE, error=FALSE, fig.align="center", fig.height=4, fig.width=6}
+dfcomp3 %>% filter(!Subspecies=="AR") %>% droplevels() %>%
+  mutate(subsppcyt = fct_recode(subsppcyt, "tridentata:2x" = "T2n",
+                                "tridentata:4x" = "T4n", "vaseyana:2x" = "V2n", 
+                                "vaseyana:4x" = "V4n", "wyomingensis:4x" = "W4n")) %>%
+  ggplot(aes(x = subsppcyt, y = growth_std, fill = subsppcyt)) + 
+  geom_boxplot(fill = virpalette) +
+  labs(x = "Distance [m]", y = expression("Growth ["~m^{3}~"]"), title = "Observed growth") +
+  theme_bw() + 
+  theme(axis.title = element_text(size = 14), title = element_text(size = 14), 
+        axis.text = element_text(size = 10))
+```
+_Figure 2: A box plot showing the observed growth of big sagebrush plants in Majors Flat common garden._  
+
+##### Model comparison and infrence
+We found that smaller interspaces lead to greater differences among groups due to density-dependence processes. Starting from a minimum distance of 0.5 m, the F-statistic diminished and eventually converged asymptotically to F-statistic values those of a base model (no NDD). The convergence point corresponded to a planting distance of ~3 meters. The correlation between average simulation outcomes from the full and base models ranged from -0.77 to 1 when the distance became greater. From interspaces greater than 3 m, the effect of density-dependence was not discernible. 
+
+
+```{r echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.align="center", fig.height=4, fig.width=6}
+pal <- viridis(2000)
+mu.mean <- apply(fstatf, 1, median)
+mu.HPDI <- apply(fstatf, 1, PI, prob=.95)
+plot(1,type = "n", ylim = c(0, 325), xlim = range(spacing), bty = "n",
+     xlab="Distance [m]", ylab = "F-statistic")
+for(i in 1:nn) { 
+  lines(spacing, fstatf[, i], col = col.alpha(pal[i], .05))
+}
+lines(spacing, mu.mean, lty = "dashed", lwd = 6, col = "black", 
+      xlab = "Distance [m]", ylab = "Correlation")
+abline(v = c(1, 1.5), lty = "dotted", col = virpalette[1], lwd = 2)
+real <- summary(lm(dfcomp3$growth_std ~ dfcomp3$subsppcyt))$fstatistic[1]
+abline(h = real, lty = "solid", col = virpalette[5], lwd = 2)
+
+# rownames(fstatf) <- spacing
+# fstatf %>% t() %>% as.data.frame() %>% melt() %>% 
+#   ggplot(aes(y = value, x = variable)) +
+#   geom_boxplot(fill = virpalette[2]) +
+#   geom_hline(yintercept = median(fstatb), colour = virpalette[3], size = 1) +
+#   geom_hline(yintercept = quantile(fstatb, probs = c(.025, .975)), colour = virpalette[3], size = 1, linetype = "dashed") +
+#   labs(x = "Distance (m)", y = "F-statistic", title = "Full model") +
+#   theme_bw() + 
+#   theme(axis.title = element_text(size = 16), title = element_text(size = 18))
+```
+_Figure 3: The magnitude of among group differences, F- statistic, as a function of distance between plants in a common garden. Black dashed line shows median value, while coloured lines correspond to posterior samples of paramet estimates model. Vertical lines indicate the actual spacing in the common garden. Yellow horizontal line shows the F-statistic values based on the observed data._  
+
+
+```{r echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.align="center", fig.height=4, fig.width=6}
+pal <- viridis(2000)
+mu.mean <- apply(corcoef, 1, median)
+mu.HPDI <- apply(corcoef, 1, PI, prob=.95)
+plot(1,type = "n", ylim = c(-.8, 1), xlim = range(spacing), 
+     xlab="Distance [m]", ylab="Correlation")
+for(i in 1:nn) { 
+  lines(spacing, corcoef[, i], col = col.alpha(pal[i], .05))
+}
+lines(spacing, mu.mean, lty = "dashed", lwd = 6, col = "black", 
+     xlab = "Distance [m]", ylab = "Correlation")
+```
+_Figure 4: Spearman correlation coefficient between predicted mean growth of a full (NDD) and base (no NDD) models. Black dashed line indicates median correlation, while coloured lines correspond to the uncertainty in model parameters._
+
+### Summary
+Overall, we demonstrate the utility of spatially-explicit models to guide planting designs for big sagebrush that account for plant-plant interactions. Model simulations showed that NDD can alter ecological inference when spatial interactions are not accounted for. Our study emphasizes the need to account for biotic sources of variation when quantifying demographic outcomes of both plant growth in experimental designs and restoration field trials. 
