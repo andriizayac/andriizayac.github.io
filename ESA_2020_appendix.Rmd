@@ -1,10 +1,14 @@
 ---
-title: <center> Spatial plant-plant interactions can alter inference on plant performance in common gardens </center> 
-author:
- - <center> Andrii Zaiats^[Boise State University, andriizaiats@u.boisestate.edu], Matthew J Germino^[US Geological Survey, Forest and Rangeland Ecosystem Science Center, mgermino@usgs.gov], Juan Requena-Mullor^[Boise State Unviersity, juanmir@ual.es], Trevor Caughlin^[Boise State Unviersity, trevorcaughlin@boisestate.edu] </center>
-date: <center> ESA Annual conference - Harnessing the ecological data revolution, August 3 - August 6, 2020 </center>
-output: html_document
+output:
+  html_document:
+    theme: yeti
 ---
+
+<center>
+### Spatial plant-plant interactions can alter inference on plant performance in common gardens  
+#### Andrii Zaiats^[Boise State University, andriizaiats@u.boisestate.edu], Matthew J Germino^[US Geological Survey, Forest and Rangeland Ecosystem Science Center, mgermino@usgs.gov], Juan Requena-Mullor^[Boise State Unviersity, juanmir@ual.es], Trevor Caughlin^[Boise State Unviersity, trevorcaughlin@boisestate.edu]  
+#### ESA Annual conference - Harnessing the ecological data revolution, August 3 - August 6, 2020 
+</center>
 
 ```{r setup, include=FALSE}
 library(rstan)
@@ -18,7 +22,7 @@ library(ggridges)
 library(forcats)
 virpalette <- viridis(5)
 
-load("esa_sim_outcomes.RData")
+load(paste0("/Users/andriizaiats/Desktop/Orchard/OrchardProjectR/ibm_sagebrush_simulations/","esa_sim_outcomes.RData"))
 ```
 
 ### Background
