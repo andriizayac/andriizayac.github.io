@@ -99,8 +99,6 @@ for(i in 1:nn) {
 lines(spacing, mu.mean, lty = "dashed", lwd = 6, col = "black", 
       xlab = "Distance [m]", ylab = "Correlation")
 abline(v = c(1, 1.5), lty = "dotted", col = virpalette[1], lwd = 2)
-real <- summary(lm(dfcomp3$growth_std ~ dfcomp3$subsppcyt))$fstatistic[1]
-abline(h = real, lty = "solid", col = virpalette[5], lwd = 2)
 
 # rownames(fstatf) <- spacing
 # fstatf %>% t() %>% as.data.frame() %>% melt() %>% 
@@ -112,7 +110,7 @@ abline(h = real, lty = "solid", col = virpalette[5], lwd = 2)
 #   theme_bw() + 
 #   theme(axis.title = element_text(size = 16), title = element_text(size = 18))
 ```
-_Figure 3: The magnitude of among group differences, F- statistic, as a function of distance between plants in a common garden. Black dashed line shows median value, while coloured lines correspond to posterior samples of paramet estimates model. Vertical lines indicate the actual spacing in the common garden. Yellow horizontal line shows the F-statistic values based on the observed data._  
+_Figure 3: The magnitude of among group differences, F- statistic, as a function of distance between plants in a common garden. Black dashed line shows median value, while coloured lines correspond to posterior samples of paramet estimates model. Vertical lines indicate the actual spacing in the common garden._  
 
 
 ```{r echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.align="center", fig.height=4, fig.width=6}

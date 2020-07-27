@@ -8,6 +8,6 @@ navbar:
     - text: "Research"
       href: ESA_2020_appendix.html
   right:
-    - text: "Contacts"
-      href: contacts.html
+    - text: "Resources"
+      href: resources.html
       
