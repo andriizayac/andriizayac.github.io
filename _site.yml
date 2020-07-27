@@ -1,13 +1,13 @@
 name: "Andrii Zaiats"
 output_dir: "."
 navbar:
-  title: "Andrii"
+  title: "ESA 2020"
   left: 
-    - text: "Home"
-      href: index.html
-    - text: "Research"
+#    - text: "Home"
+#      href: index.html
+    - text: ""
       href: ESA_2020_appendix.html
-  right:
-    - text: "Resources"
-      href: resources.html
+#  right:
+#    - text: "Resources"
+#      href: resources.html
       
