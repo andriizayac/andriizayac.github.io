@@ -3,12 +3,13 @@ output:
   html_document:
     theme: yeti
 ---
-
+<div style="margin-left:2cm;margin-right:2cm;margin-top:1cm">
 <center>
 ### Spatial plant-plant interactions can alter inference on plant performance in common gardens  
 #### Andrii Zaiats^[Boise State University, andriizaiats@u.boisestate.edu], Matthew J Germino^[US Geological Survey, Forest and Rangeland Ecosystem Science Center, mgermino@usgs.gov], Juan Requena-Mullor^[Boise State Unviersity, juanmir@ual.es], Trevor Caughlin^[Boise State Unviersity, trevorcaughlin@boisestate.edu]  
 #### ESA Annual conference - Harnessing the ecological data revolution, August 3 - August 6, 2020 
 </center>
+</div>
 
 ```{r setup, include=FALSE}
 library(rstan)
@@ -24,7 +25,7 @@ virpalette <- viridis(5)
 
 load(paste0("/Users/andriizaiats/Desktop/Orchard/OrchardProjectR/ibm_sagebrush_simulations/","esa_sim_outcomes.RData"))
 ```
-
+<div style="margin-left:2cm;margin-right:2cm;margin-top:1cm">
 ### Background
 
 In an era of increasing anthropogenic disturbances, there is a pressing need to forecast how ecological variation affects restoration outcomes. Plant-plant interactions, including negative density-dependence (NDD), are an important source of variation that could alter plant performance depending on the spatial characteristics of plant neighborhoods. A local neighborhood can be defined in terms of the number, identity, and spatial proximity of neighbors to the focal plant.  
@@ -36,9 +37,9 @@ We explored the effect of NDD on plant performance in a series of spatially expl
 Negative density-dependence (NDD) term:
 $$ \Phi_{i,s}  = \sum_{i = 1, i \ne j}^{n-1} \beta_{1[s]} Size_{j,s} * e^{-Distance_{j}^2\beta_2} $$ 
 Full model:
-$$ \mu_{i,s} = \alpha_{0[s]} + \alpha_{1[s]}Size_i + \alpha_{3[s]}\Phi_{i,s}  $$
+$$ \hat{\mu_{i,s}} = \alpha_{0[s]} + \alpha_{1[s]}Size_i + \alpha_{3[s]}\Phi_{i,s}  $$
 Base model:
-$$ \mu_{i,s} = \alpha_{0[s]} + \alpha_{1[s]}Size_i $$
+$$ \hat{\mu_{i,s}} = \alpha_{0[s]} + \alpha_{1[s]}Size_i $$
 
 ### Results
 ##### Data summary and model fitting
@@ -129,4 +130,5 @@ lines(spacing, mu.mean, lty = "dashed", lwd = 6, col = "black",
 _Figure 4: Spearman correlation coefficient between predicted mean growth of a full (NDD) and base (no NDD) models. Black dashed line indicates median correlation, while coloured lines correspond to the uncertainty in model parameters._
 
 ### Summary
-Overall, we demonstrate the utility of spatially-explicit models to guide planting designs for big sagebrush that account for plant-plant interactions. Model simulations showed that NDD can alter ecological inference when spatial interactions are not accounted for. Our study emphasizes the need to account for biotic sources of variation when quantifying demographic outcomes of both plant growth in experimental designs and restoration field trials. 
+Overall, we demonstrate the utility of spatially-explicit models to guide planting designs for big sagebrush that account for plant-plant interactions. Model simulations showed that NDD can alter ecological inference when spatial interactions are not accounted for. Our study emphasizes the need to account for biotic sources of variation when quantifying demographic outcomes of both plant growth in experimental designs and restoration field trials.
+</div>

@@ -296,6 +296,7 @@ $(document).ready(function () {
 </div>
 
 
+<div style="margin-left:2cm;margin-right:2cm;margin-top:1cm">
 <center>
 <div id="spatial-plant-plant-interactions-can-alter-inference-on-plant-performance-in-common-gardens" class="section level3">
 <h3>Spatial plant-plant interactions can alter inference on plant performance in common gardens</h3>
@@ -307,6 +308,8 @@ $(document).ready(function () {
 </center>
 </div>
 </div>
+</div>
+<div style="margin-left:2cm;margin-right:2cm;margin-top:1cm">
 <div id="background" class="section level3">
 <h3>Background</h3>
 <p>In an era of increasing anthropogenic disturbances, there is a pressing need to forecast how ecological variation affects restoration outcomes. Plant-plant interactions, including negative density-dependence (NDD), are an important source of variation that could alter plant performance depending on the spatial characteristics of plant neighborhoods. A local neighborhood can be defined in terms of the number, identity, and spatial proximity of neighbors to the focal plant.</p>
@@ -314,7 +317,7 @@ $(document).ready(function () {
 <div id="aims-and-methods" class="section level3">
 <h3>Aims and methods</h3>
 <p>We explored the effect of NDD on plant performance in a series of spatially explicit simulations parametrized on a long-term sagebrush (<em>Artemisia tridentata</em>) common garden experiment. The simulation workflow included three steps. First, we fit a spatial Bayesian model to estimate plant growth and the magnitude of spatial interactions using field-data from a common garden experiment located in Idaho, USA. This common garden contained a set of big sagebrush plants representative of high intraspecific variation, including three subspecies and two ploidy variations (subspecies:ploidy). Second, we simulated plant growth under incrementally increasing interspaces between neighbors. Finally, we quantified the magnitude of among subspecies:ploidy group differences in simulations with and without consideration of spatially-explicit plant locations. We applied linear analysis of variance to examine group (subspecies:ploidy) differences in prediction outputs to parallel frequently-used analyses of common garden data. The statistical and prediction models were identical and of the following form.</p>
-<p>Negative density-dependence (NDD) term: <span class="math display">\[ \Phi_{i,s}  = \sum_{i = 1, i \ne j}^{n-1} \beta_{1[s]} Size_{j,s} * e^{-Distance_{j}^2\beta_2} \]</span> Full model: <span class="math display">\[ \mu_{i,s} = \alpha_{0[s]} + \alpha_{1[s]}Size_i + \alpha_{3[s]}\Phi_{i,s}  \]</span> Base model: <span class="math display">\[ \mu_{i,s} = \alpha_{0[s]} + \alpha_{1[s]}Size_i \]</span></p>
+<p>Negative density-dependence (NDD) term: <span class="math display">\[ \Phi_{i,s}  = \sum_{i = 1, i \ne j}^{n-1} \beta_{1[s]} Size_{j,s} * e^{-Distance_{j}^2\beta_2} \]</span> Full model: <span class="math display">\[ \hat{\mu_{i,s}} = \alpha_{0[s]} + \alpha_{1[s]}Size_i + \alpha_{3[s]}\Phi_{i,s}  \]</span> Base model: <span class="math display">\[ \hat{\mu_{i,s}} = \alpha_{0[s]} + \alpha_{1[s]}Size_i \]</span></p>
 </div>
 <div id="results" class="section level3">
 <h3>Results</h3>
@@ -334,6 +337,7 @@ $(document).ready(function () {
 <div id="summary" class="section level3">
 <h3>Summary</h3>
 <p>Overall, we demonstrate the utility of spatially-explicit models to guide planting designs for big sagebrush that account for plant-plant interactions. Model simulations showed that NDD can alter ecological inference when spatial interactions are not accounted for. Our study emphasizes the need to account for biotic sources of variation when quantifying demographic outcomes of both plant growth in experimental designs and restoration field trials.</p>
+</div>
 </div>
 <div class="footnotes">
 <hr />
