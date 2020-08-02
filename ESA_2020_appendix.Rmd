@@ -76,7 +76,7 @@ dfcomp3 %>% filter(!Subspecies=="AR") %>% droplevels() %>%
                                 "vaseyana:4x" = "V4n", "wyomingensis:4x" = "W4n")) %>%
   ggplot(aes(x = subsppcyt, y = growth_std, fill = subsppcyt)) + 
   geom_boxplot(fill = virpalette) +
-  labs(x = "Distance [m]", y = expression("Growth ["~m^{3}~"]"), title = "Observed growth") +
+  labs(x = "Distance [m]", y = expression("Growth ["~m^{3}~mo^{-1}~"]"), title = "Observed growth") +
   theme_bw() + 
   theme(axis.title = element_text(size = 14), title = element_text(size = 14), 
         axis.text = element_text(size = 10))
@@ -88,29 +88,29 @@ We found that smaller interspaces lead to greater differences among groups due t
 
 
 ```{r echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.align="center", fig.height=4, fig.width=6}
-pal <- viridis(2000)
-mu.mean <- apply(fstatf, 1, median)
-mu.HPDI <- apply(fstatf, 1, PI, prob=.95)
-plot(1,type = "n", ylim = c(0, 325), xlim = range(spacing), bty = "n",
-     xlab="Distance [m]", ylab = "F-statistic")
-for(i in 1:nn) { 
-  lines(spacing, fstatf[, i], col = col.alpha(pal[i], .05))
-}
-lines(spacing, mu.mean, lty = "dashed", lwd = 6, col = "black", 
-      xlab = "Distance [m]", ylab = "Correlation")
-abline(v = c(1, 1.5), lty = "dotted", col = virpalette[1], lwd = 2)
+# pal <- viridis(2000)
+# mu.mean <- apply(fstatf, 1, median)
+# mu.HPDI <- apply(fstatf, 1, PI, prob=.95)
+# plot(1,type = "n", ylim = c(0, 325), xlim = range(spacing), bty = "n",
+#      xlab="Distance [m]", ylab = "F-statistic")
+# for(i in 1:nn) { 
+#   lines(spacing, fstatf[, i], col = col.alpha(pal[i], .05))
+# }
+# lines(spacing, mu.mean, lty = "dashed", lwd = 6, col = "black", 
+#       xlab = "Distance [m]", ylab = "Correlation")
+# abline(v = c(1, 1.5), lty = "dotted", col = virpalette[1], lwd = 2)
 
-# rownames(fstatf) <- spacing
-# fstatf %>% t() %>% as.data.frame() %>% melt() %>% 
-#   ggplot(aes(y = value, x = variable)) +
-#   geom_boxplot(fill = virpalette[2]) +
-#   geom_hline(yintercept = median(fstatb), colour = virpalette[3], size = 1) +
-#   geom_hline(yintercept = quantile(fstatb, probs = c(.025, .975)), colour = virpalette[3], size = 1, linetype = "dashed") +
-#   labs(x = "Distance (m)", y = "F-statistic", title = "Full model") +
-#   theme_bw() + 
-#   theme(axis.title = element_text(size = 16), title = element_text(size = 18))
+rownames(fstatf) <- spacing
+fstatf %>% t() %>% as.data.frame() %>% melt() %>%
+  ggplot(aes(y = value, x = variable)) +
+  geom_boxplot(fill = virpalette[2], alpha = .33) +
+  geom_hline(yintercept = median(fstatb), colour = virpalette[3], size = 1) +
+  geom_hline(yintercept = quantile(fstatb, probs = c(.025, .975)), colour = virpalette[3], size = 1, linetype = "dashed") +
+  labs(x = "Distance (m)", y = "F-statistic", title = "Full model") +
+  theme_bw() +
+  theme(axis.title = element_text(size = 16), title = element_text(size = 18))
 ```
-_Figure 3: The magnitude of among group differences, F- statistic, as a function of distance between plants in a common garden. Black dashed line shows median value, while coloured lines correspond to posterior samples of paramet estimates model. Vertical lines indicate the actual spacing in the common garden._  
+_Figure 3: A boxplot showing the magnitude of among group differences, F-statistic, as a function of distance between plants in a common garden. Boxes correspond to simulated distance intervals. Vertical lines indicate the actual spacing in the common garden and horizontal lines show the median and 95% CI of the F-statistic in the base model._  
 
 
 ```{r echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.align="center", fig.height=4, fig.width=6}
